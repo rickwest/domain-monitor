@@ -1,0 +1,1 @@
+To get started with this project and run locally, you will need Python, Pip and Pipenv installed. 
