@@ -1,5 +1,4 @@
 from flask import Flask
-from flask import render_template
 from peewee import *
 
 app = Flask(__name__)
@@ -33,13 +32,8 @@ db.create_tables([Domain])
 Domain.create(firm_name='Venue Solicitors', email_address='info@venuesolicitors.co.uk', domain_name=None).save()
 Domain.create(firm_name='ABC Law', email_address='hello@abclaw.com', domain_name=None).save()
 
+# A function that takes a name and does the name stemming and generates a list of variations.
 
-domains = Domain.select()
+# Write a test case to compare returned result against our expected list of results.
 
-for domain in domains:
-    print(domain.email_address)
-
-
-@app.route("/")
-def index():
-    return render_template('index.html')
+# A function that takes each name and tries to resolve it, making sure to try www version and all TLDs.
