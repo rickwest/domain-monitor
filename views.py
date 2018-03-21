@@ -2,7 +2,7 @@ import csv
 import click
 from app import app, Domain
 from flask import render_template
-from helpers import *
+from domain_monitor import *
 
 
 @app.cli.command()
