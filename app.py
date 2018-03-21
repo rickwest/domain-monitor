@@ -19,21 +19,15 @@ class BaseModel(Model):
 # create a domain model to specifies its fields and represent our domain table declaritively
 class Domain(BaseModel):
     firm_name = CharField()
-    email_address = CharField()
-    domain_name = CharField(null=True, unique=True)
+    email_address = CharField(null=True)
+    known_domain = CharField(null=True)
 
 
-# connect to database and create tables
+# connect to database
 db.connect(reuse_if_open=True)
+
+
+# create the tables. By default, Peewee will determine if the tables already exist, and conditionally create them
 db.create_tables([Domain])
 
-
-# add a couple of sample domains
-Domain.create(firm_name='Venue Solicitors', email_address='info@venuesolicitors.co.uk', domain_name=None).save()
-Domain.create(firm_name='ABC Law', email_address='hello@abclaw.com', domain_name=None).save()
-
-# A function that takes a name and does the name stemming and generates a list of variations.
-
-# Write a test case to compare returned result against our expected list of results.
-
-# A function that takes each name and tries to resolve it, making sure to try www version and all TLDs.
+import views
