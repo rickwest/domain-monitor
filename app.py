@@ -16,7 +16,7 @@ class BaseModel(Model):
         database = db
 
 
-# create a domain model to specifies its fields and represent our domain table declaritively
+# create a domain model to specify its fields and represent our domain table declaratively
 class Firm(BaseModel):
     firm_name = CharField()
     email_address = CharField(null=True)

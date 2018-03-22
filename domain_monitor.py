@@ -95,14 +95,17 @@ COMMON_NAME_ENDINGS = [
 
 def generate_variations_from_firm_name(firm_name):
     variations = set({})
+
     # First we need to stem the firm name, removing the common endings
     firm_name = remove_common_name_ending_from_firm_name(firm_name)
 
-    # strip spaces from firm name
+    # create a version of the firm name with spaces stripped
+    # add to set
     firm_name_without_spaces = firm_name.replace(' ', '')
     variations.add(firm_name_without_spaces)
 
-    # replace spaces with '-'
+    # create a version of the firm name with spaces replaced with hyphens
+    # add to set
     firm_name_with_hyphens = firm_name.replace(' ', '-')
     variations.add(firm_name_with_hyphens)
 
@@ -112,49 +115,60 @@ def generate_variations_from_firm_name(firm_name):
         variations.add(firm_name_with_hyphens + ending)
         variations.add(firm_name_with_hyphens + '-' + ending)
 
-    # For example, we have a firm called Venue Solicitors
-    # First we want to removed the common ending 'solicitors'.
-    # we also want to try all these also with ltd and limited
     # consider plurals
-    # consider swapping out characters such as '-, &, etc'
+    # consider swapping out characters and words such as '&', 'and' etc
+    # consider removal words such as 'and' and 'limited' ect
     return variations
 
 
-TLDS = ['.com', '.co.uk']
+COMMON_TLDS = ['.com', '.co.uk', '.org', '.net']
 
 
 def attempt_domain_resolution(variation):
-    try:
-        res = requests.get('http://' + variation + '.co.uk')
-        # print(res.status_code)
-    except ConnectionError:
-        pass
+    for tld in COMMON_TLDS:
+        domain_name = '{variation}{tld}'.format(variation=variation, tld='.co.uk')
+        try:
+            url = 'http://{}'.format(domain_name)
+            r = requests.get(url, timeout=1)
+            print(r.status_code)
+        except requests.exceptions.RequestException as e:
+            print(e)
+            # catch exception and try again with 'www' sub domain
+            try:
+                url = 'http://www.{}'.format(domain_name)
+                r = requests.get(url, timeout=0.001)
+                print('tried:' + url)
+            except requests.exceptions.RequestException as e:
+                pass
 
-    tlds = ['.com', '.co.uk']
     # this function will take each of the generate permutations and try and resolve it
     # making sure to try www version and all common TLDs
 
-attempt_domain_resolution('google')
 
-
-def check_domains():
-    # this function will pull everything together and call all the other functions
-    # fetch each company from database
+def check_domains(firms):
+    # this function pulls everything together by calling the other functions
     for firm in firms:
-        domain_variations = generate_variations_from_firm_name(firm.firm_name)
-        for variation in domain_variations:
+        # generate the name variations
+        generated_variations = generate_variations_from_firm_name(firm.firm_name)
+        for variation in generated_variations:
             attempt_domain_resolution(variation)
 
 
-# helper functions
 def get_domain_from_email_address(email_address):
     return email_address.split('@')[1]
 
 
 def remove_common_name_ending_from_firm_name(firm_name):
-    # Loop the common name endings and see if the firm name ends with one
-    # If it does, we slice the firm name and strip whitespace
+    # loop the common name endings and see if the firm name ends with one
+    # if it does, we split the firm name at the relevant index and strip whitespace
     for ending in COMMON_NAME_ENDINGS:
         if firm_name.endswith(ending):
             start_index = firm_name.rfind(ending)
             return firm_name[:start_index].rstrip()
+
+
+def print_url(url):
+    print(url)
+
+
+attempt_domain_resolution('goggle')
