@@ -1,6 +1,6 @@
 import csv
 import click
-from app import app, Domain
+from app import app, Firm
 from flask import render_template
 from domain_monitor import *
 
@@ -19,9 +19,9 @@ def parse_clc_csv_and_seed_database():
                 known_domain = None
                 if email_address is not '':
                     known_domain = get_domain_from_email_address(email_address)
-                Domain.get_or_create(firm_name=firm_name,
-                                     email_address=email_address,
-                                     defaults={'known_domain': known_domain})
+                Firm.get_or_create(firm_name=firm_name,
+                                   email_address=email_address,
+                                   defaults={'known_domain': known_domain})
 
     click.echo('Database seeded successfully')
 

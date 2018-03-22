@@ -17,7 +17,7 @@ class BaseModel(Model):
 
 
 # create a domain model to specifies its fields and represent our domain table declaritively
-class Domain(BaseModel):
+class Firm(BaseModel):
     firm_name = CharField()
     email_address = CharField(null=True)
     known_domain = CharField(null=True)
@@ -28,6 +28,6 @@ db.connect(reuse_if_open=True)
 
 
 # create the tables. By default, Peewee will determine if the tables already exist, and conditionally create them
-db.create_tables([Domain])
+db.create_tables([Firm])
 
 import views
