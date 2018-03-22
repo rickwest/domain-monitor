@@ -30,3 +30,11 @@ pip install pipenv
  
 For more information about installing Python, Pip, and Pipenv, you can follow the awesome guides on Kenneth Reitz' [The Hitchhiker's Guide to Python](http://docs.python-guide.org/en/latest/), specifically http://docs.python-guide.org/en/latest/starting/installation/ and
 http://docs.python-guide.org/en/latest/dev/virtualenvs/#make-sure-you-ve-got-python-pip/.
+
+## Running the tests
+
+Domain Monitor has some tests that ensure the correct generation of expected domain name variations. Run the tests using the following command:
+
+```commandline
+python tests.py
+```

@@ -26,6 +26,13 @@ def parse_clc_csv_and_seed_database():
     click.echo('Database seeded successfully')
 
 
+@app.cli.command()
+def check_all_domains():
+    firms = Firm.select()
+    check_domains(firms)
+    click.echo('All domains checked successfully')
+
+
 @app.route("/")
 def index():
     return render_template('index.html')
