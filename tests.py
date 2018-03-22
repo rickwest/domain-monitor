@@ -287,11 +287,14 @@ class TestDomainMonitor(unittest.TestCase):
             'venue-conveyancing-partllplimited'
         }
 
+        generated_variations = generate_variations_from_firm_name(firm_name)
+
         # check that both generated and expected variation sets are the same length
-        self.assertEqual(len(expected_variations), len(generate_variations_from_firm_name(firm_name)))
+        self.assertEqual(len(expected_variations), len(generated_variations))
 
         # check that both set's contain identical items
-        self.assertSetEqual(expected_variations, generate_variations_from_firm_name(firm_name))
+        self.assertSetEqual(expected_variations, generated_variations)
+
 
 if __name__ == '__main__':
     unittest.main()
