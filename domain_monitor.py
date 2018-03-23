@@ -93,7 +93,13 @@ COMMON_NAME_ENDINGS = [
     'limited',
 ]
 
+# variations = []
 
+# def set_variations:
+    # get the variations from a config file, means we can have different version for dev and prod
+
+
+# yield results instead of storing in a massive set?
 def generate_variations_from_firm_name(firm_name):
     variations = set({})
 
@@ -130,22 +136,17 @@ COMMON_TLDS = ['.com', '.co.uk', '.org', '.net', '.uk']
 
 def attempt_domain_resolution(variation):
     for tld in COMMON_TLDS:
-        domain_name = '{variation}{tld}'.format(variation=variation, tld=tld)
-        try:
-            # may need to handle redirects differently in the future but set allow to false for now
-            r = requests.get('http://{}'.format(domain_name), timeout=2, allow_redirects=False)
-        except requests.exceptions.RequestException as e:
-            # catch exception and try again with 'www' sub domain
+        for prefix in ['', 'www.']:
+            domain_name = '{prefix}{variation}{tld}'.format(prefix=prefix, variation=variation, tld=tld)
             try:
-                r = requests.get('http://www.{}'.format(domain_name), timeout=2, allow_redirects=False)
+                # may need to handle redirects differently in the future but set allow to false for now
+                r = requests.get('http://{}'.format(domain_name), timeout=2, allow_redirects=False)
             except requests.exceptions.RequestException as e:
+                # catch exception and try again with 'www' sub domain
+                # do something
                 pass
             else:
-                pass
                 print(r.url)
-        else:
-            print(r.url)
-            # do something
 
 
 def check_domains(firms):
