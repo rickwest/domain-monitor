@@ -5,11 +5,11 @@ from domain_monitor import generate_variations_from_firm_name
 class TestDomainMonitor(unittest.TestCase):
     # test case to compare generated variations against our expected list of results.
     def test_generation_of_variations(self):
-        firm_name = 'venue conveyancing solicitors'
+        firm_name = 'tonic solicitors'
 
         expected_variations = {
             # stemmed names with common ending
-            'venueconveyancing',
+            'tonic',
             'venueconveyancingllp',
             'venueconveyancingllc',
             'venueconveyancingpllp',

@@ -1,106 +1,25 @@
 import requests
 import re
 
-COMMON_NAME_ENDINGS = [
-    'llp',
-    'llc',
-    'pllp',
-    'law',
-    'lawll',
-    'practice',
-    'legal',
-    'lawyers',
-    'lawyer',
-    'solicitors',
-    'solicitor',
-    'advocates',
-    'advocate',
-    'associates',
-    'associate',
-    'partners',
-    'partner',
-    'chambers',
-    'chamber',
-    'audit',
-    'chambersllp',
-    'lawchamber',
-    'lawchambers',
-    'lawpractice',
-    'lawllp',
-    'lawllc',
-    'lawfirm',
-    'partllp',
+common_name_endings = []
 
-    'llpltd',
-    'llcltd',
-    'pllpltd',
-    'lawltd',
-    'lawllltd',
-    'practiceltd',
-    'legalltd',
-    'lawyersltd',
-    'lawyerltd',
-    'solicitorsltd',
-    'solicitorltd',
-    'advocatesltd',
-    'advocateltd',
-    'associatesltd',
-    'associateltd',
-    'partnersltd',
-    'partnerltd',
-    'chambersltd',
-    'chamberltd',
-    'auditltd',
-    'chambersllpltd',
-    'lawchamberltd',
-    'lawchambersltd',
-    'lawpracticeltd',
-    'lawllpltd',
-    'lawllcltd',
-    'lawfirmltd',
-    'partllpltd',
 
-    'llplimited',
-    'llclimited',
-    'pllplimited',
-    'lawlimited',
-    'lawlllimited',
-    'practicelimited',
-    'legallimited',
-    'lawyerslimited',
-    'lawyerlimited',
-    'solicitorslimited',
-    'solicitorlimited',
-    'advocateslimited',
-    'advocatelimited',
-    'associateslimited',
-    'associatelimited',
-    'partnerslimited',
-    'partnerlimited',
-    'chamberslimited',
-    'chamberlimited',
-    'auditlimited',
-    'chambersllplimited',
-    'lawchamberlimited',
-    'lawchamberslimited',
-    'lawpracticelimited',
-    'lawllplimited',
-    'lawllclimited',
-    'lawfirmlimited',
-    'partllplimited',
-
-    'ltd',
-    'limited',
-]
-
-# variations = []
-
-# def set_variations:
+def set_common_name_endings(endings):
+    print(endings)
+    common_name_endings = endings
     # get the variations from a config file, means we can have different version for dev and prod
+
+
+print(common_name_endings)
 
 
 # yield results instead of storing in a massive set?
 def generate_variations_from_firm_name(firm_name):
+    """
+
+    :param firm_name:
+    :return:
+    """
     variations = set({})
 
     # First we need to stem the firm name, removing the common endings

@@ -1,7 +1,9 @@
 from flask import Flask
 from peewee import *
+from domain_monitor import set_common_name_endings
 
 app = Flask(__name__)
+app.config.from_envvar('APP_CONFIG')
 
 
 # create a peewee database instance -- our models will use this database to
@@ -25,6 +27,9 @@ class Firm(BaseModel):
 
 # connect to database
 db.connect(reuse_if_open=True)
+
+
+set_common_name_endings(app.config['COMMON_NAME_ENDINGS'])
 
 
 # create the tables. By default, Peewee will determine if the tables already exist, and conditionally create them
