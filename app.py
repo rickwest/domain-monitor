@@ -1,6 +1,6 @@
 from flask import Flask
 from peewee import *
-from domain_monitor import set_common_name_endings
+from domain_monitor import set_common_name_endings, set_business_entity_endings, set_tlds
 
 app = Flask(__name__)
 app.config.from_envvar('APP_CONFIG')
@@ -30,6 +30,10 @@ db.connect(reuse_if_open=True)
 
 
 set_common_name_endings(app.config['COMMON_NAME_ENDINGS'])
+
+set_business_entity_endings(app.config['BUSINESS_ENTITY_ENDINGS'])
+
+set_tlds(app.config['TLDS'])
 
 
 # create the tables. By default, Peewee will determine if the tables already exist, and conditionally create them
