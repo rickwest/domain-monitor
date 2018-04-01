@@ -33,21 +33,5 @@ def check_all_domains():
 
     with click.progressbar(firms) as bar:
         check_domains(bar)
-        # for firm in bar:
-        #     if 'r' in firm.firm_name:
-        #         click.echo(click.style(firm.firm_name, fg='blue'))
-
-
-    #
-    #
-    #
-    #
-    #
-    #
-    # check_domains(firms)
     click.echo('All domains checked successfully')
 
-
-@app.route("/")
-def index():
-    return render_template('index.html')
