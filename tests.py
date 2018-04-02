@@ -1,300 +1,123 @@
 import unittest
-from domain_monitor import generate_variations_from_firm_name
+from domain_monitor import set_common_name_endings, set_business_entity_endings, generate_variations_from_firm_name
+from config_dev import COMMON_NAME_ENDINGS, BUSINESS_ENTITY_ENDINGS
 
 
 class TestDomainMonitor(unittest.TestCase):
-    # test case to compare generated variations against our expected list of results.
     def test_generation_of_variations(self):
-        firm_name = 'tonic solicitors'
+        """ Test generation of domain variations.
+
+        Test case to compare generated variations against our expected list of results.
+        By writing the test first, we were able to
+        """
+
+        firm_name = 'venue conveyancing solicitors limited'
+
+        # set common name endings for dev/test environment
+        set_common_name_endings(COMMON_NAME_ENDINGS)
+
+        # set business entity endings for dev/test environment
+        set_business_entity_endings(BUSINESS_ENTITY_ENDINGS)
 
         expected_variations = {
-            # stemmed names with common ending
-            'tonic',
+            # stemmed name with common ending
+            'venueconveyancing',
             'venueconveyancingllp',
-            'venueconveyancingllc',
-            'venueconveyancingpllp',
             'venueconveyancinglaw',
-            'venueconveyancinglawll',
-            'venueconveyancingpractice',
-            'venueconveyancinglegal',
-            'venueconveyancinglawyer',
-            'venueconveyancinglawyers',
             'venueconveyancingsolicitors',
-            'venueconveyancingsolicitor',
-            'venueconveyancingadvocates',
-            'venueconveyancingadvocate',
-            'venueconveyancingassociates',
-            'venueconveyancingassociate',
-            'venueconveyancingpartners',
-            'venueconveyancingpartner',
-            'venueconveyancingchambers',
-            'venueconveyancingchamber',
-            'venueconveyancingaudit',
-            'venueconveyancingchambersllp',
-            'venueconveyancinglawchamber',
-            'venueconveyancinglawchambers',
-            'venueconveyancinglawpractice',
-            'venueconveyancinglawllp',
-            'venueconveyancinglawllc',
-            'venueconveyancinglawfirm',
-            'venueconveyancingpartllp',
 
-            # stemmed names with common ending plus 'ltd'
+            # stemmed name with common ending plus 'ltd'
             'venueconveyancingltd',
             'venueconveyancingllpltd',
-            'venueconveyancingllcltd',
-            'venueconveyancingpllpltd',
             'venueconveyancinglawltd',
-            'venueconveyancinglawllltd',
-            'venueconveyancingpracticeltd',
-            'venueconveyancinglegalltd',
-            'venueconveyancinglawyerltd',
-            'venueconveyancinglawyersltd',
             'venueconveyancingsolicitorsltd',
-            'venueconveyancingsolicitorltd',
-            'venueconveyancingadvocatesltd',
-            'venueconveyancingadvocateltd',
-            'venueconveyancingassociatesltd',
-            'venueconveyancingassociateltd',
-            'venueconveyancingpartnersltd',
-            'venueconveyancingpartnerltd',
-            'venueconveyancingchambersltd',
-            'venueconveyancingchamberltd',
-            'venueconveyancingauditltd',
-            'venueconveyancingchambersllpltd',
-            'venueconveyancinglawchamberltd',
-            'venueconveyancinglawchambersltd',
-            'venueconveyancinglawpracticeltd',
-            'venueconveyancinglawllpltd',
-            'venueconveyancinglawllcltd',
-            'venueconveyancinglawfirmltd',
-            'venueconveyancingpartllpltd',
 
-            # stemmed names with common ending plus 'limited'
+            # stemmed name with common ending plus 'limited'
             'venueconveyancinglimited',
             'venueconveyancingllplimited',
-            'venueconveyancingllclimited',
-            'venueconveyancingpllplimited',
             'venueconveyancinglawlimited',
-            'venueconveyancinglawlllimited',
-            'venueconveyancingpracticelimited',
-            'venueconveyancinglegallimited',
-            'venueconveyancinglawyerlimited',
-            'venueconveyancinglawyerslimited',
             'venueconveyancingsolicitorslimited',
-            'venueconveyancingsolicitorlimited',
-            'venueconveyancingadvocateslimited',
-            'venueconveyancingadvocatelimited',
-            'venueconveyancingassociateslimited',
-            'venueconveyancingassociatelimited',
-            'venueconveyancingpartnerslimited',
-            'venueconveyancingpartnerlimited',
-            'venueconveyancingchamberslimited',
-            'venueconveyancingchamberlimited',
-            'venueconveyancingauditlimited',
-            'venueconveyancingchambersllplimited',
-            'venueconveyancinglawchamberlimited',
-            'venueconveyancinglawchamberslimited',
-            'venueconveyancinglawpracticelimited',
-            'venueconveyancinglawllplimited',
-            'venueconveyancinglawllclimited',
-            'venueconveyancinglawfirmlimited',
-            'venueconveyancingpartllplimited',
+
+            # stemmed name with hyphen separated common ending
+            'venueconveyancing-llp',
+            'venueconveyancing-law',
+            'venueconveyancing-solicitors',
+
+            # stemmed name with hyphen separated common ending plus 'ltd'
+            'venueconveyancing-ltd',
+            'venueconveyancing-llpltd',
+            'venueconveyancing-lawltd',
+            'venueconveyancing-solicitorsltd',
+
+            # stemmed name with hyphen separated common ending plus 'limited'
+            'venueconveyancing-limited',
+            'venueconveyancing-llplimited',
+            'venueconveyancing-lawlimited',
+            'venueconveyancing-solicitorslimited',
+
+            # stemmed name with hyphen separated common ending plus hyphen separated 'ltd'
+            'venueconveyancing-llp-ltd',
+            'venueconveyancing-law-ltd',
+            'venueconveyancing-solicitors-ltd',
+
+            # stemmed name with hyphen separated common ending plus hyphen separated 'limited'
+            'venueconveyancing-llp-limited',
+            'venueconveyancing-law-limited',
+            'venueconveyancing-solicitors-limited',
 
             # hyphen separated stemmed name with common ending
             'venue-conveyancing',
             'venue-conveyancingllp',
-            'venue-conveyancingllc',
-            'venue-conveyancingpllp',
             'venue-conveyancinglaw',
-            'venue-conveyancinglawll',
-            'venue-conveyancingpractice',
-            'venue-conveyancinglegal',
-            'venue-conveyancinglawyers',
-            'venue-conveyancinglawyer',
             'venue-conveyancingsolicitors',
-            'venue-conveyancingsolicitor',
-            'venue-conveyancingadvocates',
-            'venue-conveyancingadvocate',
-            'venue-conveyancingassociates',
-            'venue-conveyancingassociate',
-            'venue-conveyancingpartners',
-            'venue-conveyancingpartner',
-            'venue-conveyancingchambers',
-            'venue-conveyancingchamber',
-            'venue-conveyancingaudit',
-            'venue-conveyancingchambersllp',
-            'venue-conveyancinglawchamber',
-            'venue-conveyancinglawchambers',
-            'venue-conveyancinglawpractice',
-            'venue-conveyancinglawllp',
-            'venue-conveyancinglawllc',
-            'venue-conveyancinglawfirm',
-            'venue-conveyancingpartllp',
 
             # hyphen separated stemmed name with common ending plus 'ltd'
             'venue-conveyancingltd',
             'venue-conveyancingllpltd',
-            'venue-conveyancingllcltd',
-            'venue-conveyancingpllpltd',
             'venue-conveyancinglawltd',
-            'venue-conveyancinglawllltd',
-            'venue-conveyancingpracticeltd',
-            'venue-conveyancinglegalltd',
-            'venue-conveyancinglawyerltd',
-            'venue-conveyancinglawyersltd',
             'venue-conveyancingsolicitorsltd',
-            'venue-conveyancingsolicitorltd',
-            'venue-conveyancingadvocatesltd',
-            'venue-conveyancingadvocateltd',
-            'venue-conveyancingassociatesltd',
-            'venue-conveyancingassociateltd',
-            'venue-conveyancingpartnersltd',
-            'venue-conveyancingpartnerltd',
-            'venue-conveyancingchambersltd',
-            'venue-conveyancingchamberltd',
-            'venue-conveyancingauditltd',
-            'venue-conveyancingchambersllpltd',
-            'venue-conveyancinglawchamberltd',
-            'venue-conveyancinglawchambersltd',
-            'venue-conveyancinglawpracticeltd',
-            'venue-conveyancinglawllpltd',
-            'venue-conveyancinglawllcltd',
-            'venue-conveyancinglawfirmltd',
-            'venue-conveyancingpartllpltd',
 
             # hyphen separated stemmed name with common ending plus 'limited'
             'venue-conveyancinglimited',
             'venue-conveyancingllplimited',
-            'venue-conveyancingllclimited',
-            'venue-conveyancingpllplimited',
             'venue-conveyancinglawlimited',
-            'venue-conveyancinglawlllimited',
-            'venue-conveyancingpracticelimited',
-            'venue-conveyancinglegallimited',
-            'venue-conveyancinglawyerlimited',
-            'venue-conveyancinglawyerslimited',
             'venue-conveyancingsolicitorslimited',
-            'venue-conveyancingsolicitorlimited',
-            'venue-conveyancingadvocateslimited',
-            'venue-conveyancingadvocatelimited',
-            'venue-conveyancingassociateslimited',
-            'venue-conveyancingassociatelimited',
-            'venue-conveyancingpartnerslimited',
-            'venue-conveyancingpartnerlimited',
-            'venue-conveyancingchamberslimited',
-            'venue-conveyancingchamberlimited',
-            'venue-conveyancingauditlimited',
-            'venue-conveyancingchambersllplimited',
-            'venue-conveyancinglawchamberlimited',
-            'venue-conveyancinglawchamberslimited',
-            'venue-conveyancinglawpracticelimited',
-            'venue-conveyancinglawllplimited',
-            'venue-conveyancinglawllclimited',
-            'venue-conveyancinglawfirmlimited',
-            'venue-conveyancingpartllplimited',
 
             # hyphen separated stemmed name with hyphen separated common ending
             'venue-conveyancing-llp',
-            'venue-conveyancing-llc',
-            'venue-conveyancing-pllp',
             'venue-conveyancing-law',
-            'venue-conveyancing-lawll',
-            'venue-conveyancing-practice',
-            'venue-conveyancing-legal',
-            'venue-conveyancing-lawyer',
-            'venue-conveyancing-lawyers',
             'venue-conveyancing-solicitors',
-            'venue-conveyancing-solicitor',
-            'venue-conveyancing-advocates',
-            'venue-conveyancing-advocate',
-            'venue-conveyancing-associates',
-            'venue-conveyancing-associate',
-            'venue-conveyancing-partners',
-            'venue-conveyancing-partner',
-            'venue-conveyancing-chambers',
-            'venue-conveyancing-chamber',
-            'venue-conveyancing-audit',
-            'venue-conveyancing-chambersllp',
-            'venue-conveyancing-lawchamber',
-            'venue-conveyancing-lawchambers',
-            'venue-conveyancing-lawpractice',
-            'venue-conveyancing-lawllp',
-            'venue-conveyancing-lawllc',
-            'venue-conveyancing-lawfirm',
-            'venue-conveyancing-partllp',
 
             # hyphen separated stemmed name with hyphen separated common ending plus 'ltd'
             'venue-conveyancing-ltd',
             'venue-conveyancing-llpltd',
-            'venue-conveyancing-llcltd',
-            'venue-conveyancing-pllpltd',
             'venue-conveyancing-lawltd',
-            'venue-conveyancing-lawllltd',
-            'venue-conveyancing-practiceltd',
-            'venue-conveyancing-legalltd',
-            'venue-conveyancing-lawyerltd',
-            'venue-conveyancing-lawyersltd',
             'venue-conveyancing-solicitorsltd',
-            'venue-conveyancing-solicitorltd',
-            'venue-conveyancing-advocatesltd',
-            'venue-conveyancing-advocateltd',
-            'venue-conveyancing-associatesltd',
-            'venue-conveyancing-associateltd',
-            'venue-conveyancing-partnersltd',
-            'venue-conveyancing-partnerltd',
-            'venue-conveyancing-chambersltd',
-            'venue-conveyancing-chamberltd',
-            'venue-conveyancing-auditltd',
-            'venue-conveyancing-chambersllpltd',
-            'venue-conveyancing-lawchamberltd',
-            'venue-conveyancing-lawchambersltd',
-            'venue-conveyancing-lawpracticeltd',
-            'venue-conveyancing-lawllpltd',
-            'venue-conveyancing-lawllcltd',
-            'venue-conveyancing-lawfirmltd',
-            'venue-conveyancing-partllpltd',
 
             # hyphen separated stemmed name with hyphen separated common ending plus 'limited'
             'venue-conveyancing-limited',
             'venue-conveyancing-llplimited',
-            'venue-conveyancing-llclimited',
-            'venue-conveyancing-pllplimited',
             'venue-conveyancing-lawlimited',
-            'venue-conveyancing-lawlllimited',
-            'venue-conveyancing-practicelimited',
-            'venue-conveyancing-legallimited',
-            'venue-conveyancing-lawyerlimited',
-            'venue-conveyancing-lawyerslimited',
             'venue-conveyancing-solicitorslimited',
-            'venue-conveyancing-solicitorlimited',
-            'venue-conveyancing-advocateslimited',
-            'venue-conveyancing-advocatelimited',
-            'venue-conveyancing-associateslimited',
-            'venue-conveyancing-associatelimited',
-            'venue-conveyancing-partnerslimited',
-            'venue-conveyancing-partnerlimited',
-            'venue-conveyancing-chamberslimited',
-            'venue-conveyancing-chamberlimited',
-            'venue-conveyancing-auditlimited',
-            'venue-conveyancing-chambersllplimited',
-            'venue-conveyancing-lawchamberlimited',
-            'venue-conveyancing-lawchamberslimited',
-            'venue-conveyancing-lawpracticelimited',
-            'venue-conveyancing-lawllplimited',
-            'venue-conveyancing-lawllclimited',
-            'venue-conveyancing-lawfirmlimited',
-            'venue-conveyancing-partllplimited'
+
+            # hyphen separated stemmed name with hyphen separated common ending plus hyphen separated 'ltd'
+            'venue-conveyancing-llp-ltd',
+            'venue-conveyancing-law-ltd',
+            'venue-conveyancing-solicitors-ltd',
+
+            # hyphen separated stemmed name with hyphen separated common ending plus hyphen separated 'limited'
+            'venue-conveyancing-llp-limited',
+            'venue-conveyancing-law-limited',
+            'venue-conveyancing-solicitors-limited',
         }
 
-        generated_variations = generate_variations_from_firm_name(firm_name)
+        generated_variations = set(variation for variation in generate_variations_from_firm_name(firm_name))
 
         # check that both generated and expected variation sets are the same length
         self.assertEqual(len(expected_variations), len(generated_variations))
 
         # check that both set's contain identical items
         self.assertSetEqual(expected_variations, generated_variations)
-
 
 if __name__ == '__main__':
     unittest.main()
