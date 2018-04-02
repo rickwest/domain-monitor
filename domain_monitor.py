@@ -81,18 +81,16 @@ def generate_variations_from_firm_name(firm_name: str):
     for name in [firm_name_without_spaces, firm_name_with_hyphens]:
         yield(name)
 
-        for business_entity_ending in business_entity_endings:
-            yield(name + business_entity_ending)
-            yield(name + '-' + business_entity_ending)
+        for business_entity in business_entity_endings:
+            yield('{name}{business_entity}'.format(name=name, business_entity=business_entity))
+            yield('{name}-{business_entity}'.format(name=name, business_entity=business_entity))
 
-        for ending in common_name_endings:
-            yield(name + ending)
-            yield(name + '-' + ending)
-
-            for business_entity_ending in business_entity_endings:
-                yield(name + ending + business_entity_ending)
-                yield(name + '-' + ending + business_entity_ending)
-                yield(name + '-' + ending + '-' + business_entity_ending)
+            for ending in common_name_endings:
+                yield('{name}{ending}'.format(name=name, ending=ending))
+                yield('{name}-{ending}'.format(name=name, ending=ending))
+                yield('{name}{ending}{business_entity}'.format(name=name, ending=ending, business_entity=business_entity))
+                yield('{name}-{ending}{business_entity}'.format(name=name, ending=ending, business_entity=business_entity))
+                yield('{name}-{ending}-{business_entity}'.format(name=name, ending=ending, business_entity=business_entity))
 
     # TODO - consider pluralisation of firm names, swapping out characters and words such as '&', 'and' etc
 
@@ -107,6 +105,8 @@ def attempt_domain_resolution(variation):
             except requests.exceptions.RequestException as e:
                 # catch exception and try again with 'www' sub domain
                 # do something
+                pass
+            except:
                 pass
             else:
                 print(r.url)
