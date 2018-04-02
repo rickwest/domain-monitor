@@ -1,3 +1,15 @@
+"""
+    Domain Monitor
+    ~~~~~~~~~~~~~
+
+    Implements the main application logic associated with generation
+    of domain name variations and attempted resolution
+
+    File name: domain_monitor.py
+    Authors: Richard West, Meg Williamson
+    Python Version: 3.6
+"""
+
 import requests
 import re
 from typing import Iterable

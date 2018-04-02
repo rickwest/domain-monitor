@@ -1,3 +1,14 @@
+"""
+    Domain Monitor
+    ~~~~~~~~~~~~~
+
+    Implements the unit tests for the application
+
+    File name: tests.py
+    Authors: Richard West, Meg Williamson
+    Python Version: 3.6
+"""
+
 import unittest
 from domain_monitor import set_common_name_endings, set_business_entity_endings, generate_variations_from_firm_name
 from config_dev import COMMON_NAME_ENDINGS, BUSINESS_ENTITY_ENDINGS

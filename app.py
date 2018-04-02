@@ -1,3 +1,16 @@
+"""
+    Domain Monitor
+    ~~~~~~~~~~~~~
+
+    Our application.
+
+    This is where we bootstrap our Flask application and it's dependencies.
+
+    File name: app.py
+    Authors: Richard West, Meg Williamson
+    Python Version: 3.6
+"""
+
 import click
 import csv
 from flask import Flask
