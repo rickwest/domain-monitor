@@ -89,12 +89,13 @@ def check_all_domains(limit):
 
 @app.cli.command(name='domains-report')
 def domain_report():
-    """Command that generates a tabular report using data from the last run of check-domains."""
+    """Command that generates a tabular report using data from the latest run of check-domains."""
 
     # get most recent domain report entry
-    last_entry = DomainReport.select().order_by(DomainReport.id.desc()).get()
+    latest_entry = DomainReport.select().order_by(DomainReport.id.desc()).get()
 
-    reports = DomainReport.select().where(DomainReport.last_checked_at >= last_entry.last_checked_at)
+    # select all reports last checked on the same day as the latest entry
+    reports = DomainReport.select().where(DomainReport.last_checked_at >= latest_entry.last_checked_at)
 
     table_data = [
         # table heading's
