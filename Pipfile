@@ -11,6 +11,8 @@ requests = "*"
 flask = "*"
 peewee = "*"
 coverage = "*"
+emoji = "*"
+terminaltables = "*"
 
 
 [dev-packages]

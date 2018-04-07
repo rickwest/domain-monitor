@@ -12,7 +12,9 @@
 
 import requests
 import re
+from datetime import datetime
 from typing import Iterable
+from models import Firm, DomainReport
 
 common_name_endings = []
 
@@ -63,7 +65,7 @@ def generate_variations_from_firm_name(firm_name: str):
     With plans to expand the scope of this program beyond the duration of the university module, 
     by adding numerous other possible variations on names, we did some research and 
     found that by using generators we could improve our application's performance and 
-    consume less memory as compared to normal collections.    
+    consume less memory as compared to normal collections.
     """
 
     # First we need to stem the firm name, removing common endings
@@ -96,23 +98,29 @@ def generate_variations_from_firm_name(firm_name: str):
 
 
 def attempt_domain_resolution(variation):
+    """Build a domain from variation and attempt to resolve
+
+    We decided to make a get request, rather than a simple dns lookup, as future plans include scraping and parsing
+    the result of the request in order to try an evaluate the contents of the page.
+    """
     for tld in common_tlds:
         for prefix in ['', 'www.']:
             domain_name = '{prefix}{variation}{tld}'.format(prefix=prefix, variation=variation, tld=tld)
             try:
+                # we make a 'get' request, as
                 # may need to handle redirects differently in the future but set allow to false for now
                 r = requests.get('http://{}'.format(domain_name), timeout=2, allow_redirects=False)
             except requests.exceptions.RequestException as e:
-                # catch exception and try again with 'www' sub domain
-                # do something
+                # catch specific request exception as we may want to handle this in future
                 pass
             except:
+                # not at all ideal, but we don't want to interrupt program execution
                 pass
             else:
-                print(r.url)
+                return r
 
 
-def check_domains(firms: Iterable[all]):
+def check_domains(firms: Iterable[Firm]):
     """This is the function that pulls everything together.
 
     Loops through the Firms iterable, calls the generate_variations_from_firm_name function,
@@ -121,7 +129,13 @@ def check_domains(firms: Iterable[all]):
 
     for firm in firms:
         for variation in generate_variations_from_firm_name(firm.firm_name):
-            attempt_domain_resolution(variation)
+            r = attempt_domain_resolution(variation)
+            if r:
+                # remove 'http://' from start and trailing slash
+                domain_name = r.url[7:-1]
+                if domain_name != firm.known_domain:
+                    DomainReport.get_or_create(domain=domain_name,
+                                               defaults={'firm': firm, 'last_checked_at': datetime.now().date()})
 
 
 def get_domain_from_email_address(email_address: str) -> str:
@@ -157,4 +171,3 @@ def stem_firm_name(firm_name: str) -> str:
             return firm_name[:start_index].rstrip()
 
     return firm_name
-

@@ -19,7 +19,8 @@ class TestDomainMonitor(unittest.TestCase):
         """ Test generation of domain variations.
 
         Test case to compare generated variations against our expected list of results.
-        By writing the test first, we were able to
+        By writing the test first, we were able to write and imporve our domain generation algorithm,
+        in order to satisfy our desired outcome.
         """
 
         firm_name = 'venue conveyancing solicitors limited'
