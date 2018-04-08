@@ -76,7 +76,7 @@ def check_all_domains(limit):
         firms = Firm.select()
 
     with click.progressbar(firms) as bar:
-        click.echo(emoji.emojize(' Checking domains. :hourglass_flowing_sand:  '
+        click.echo(emoji.emojize(' Checking domains. :hourglass_flowing_sand: '
                                  'Please be patient...we have a lot of domain variations to check!',
                                  use_aliases=True))
         check_domains(bar)

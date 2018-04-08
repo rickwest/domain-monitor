@@ -107,7 +107,6 @@ def attempt_domain_resolution(variation):
         for prefix in ['', 'www.']:
             domain_name = '{prefix}{variation}{tld}'.format(prefix=prefix, variation=variation, tld=tld)
             try:
-                # we make a 'get' request, as
                 # may need to handle redirects differently in the future but set allow to false for now
                 r = requests.get('http://{}'.format(domain_name), timeout=2, allow_redirects=False)
             except requests.exceptions.RequestException as e:
