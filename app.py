@@ -37,7 +37,7 @@ set_tlds(app.config['TLDS'])
 db.create_tables([Firm, DomainReport])
 
 
-@app.cli.command(name='import-firms')
+@app.cli.command(name='import')
 def import_clc_firms():
     """Simple command parses data from Council for Licensed Conveyancers (CLC) firms and inserts into database table."""
 
@@ -60,7 +60,7 @@ def import_clc_firms():
         click.echo(emoji.emojize('CLC firms imported successfully :thumbs_up:', use_aliases=True))
 
 
-@app.cli.command(name='check-domains')
+@app.cli.command(name='check')
 @click.option('--limit', default=None, help='The number of random firms to check')
 def check_all_domains(limit):
     """This command takes all, or a given number of, firms, generates variations for them, and attempts to resolve.
@@ -84,10 +84,10 @@ def check_all_domains(limit):
     click.echo(emoji.emojize('All domain variations have been checked :smiley:.\n'
                              'To view the latest domain report, run the following command:\n'
                              ':snake:  ',
-                             use_aliases=True) + click.style('flask domains-report', fg='green'))
+                             use_aliases=True) + click.style('flask report', fg='green'))
 
 
-@app.cli.command(name='domains-report')
+@app.cli.command(name='report')
 def domain_report():
     """Command that generates a tabular report using data from the latest run of check-domains."""
 
