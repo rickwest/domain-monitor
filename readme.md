@@ -14,10 +14,10 @@ A list of recently identified fraudulent activity can be found on the [Solicitor
 
 ## Our solution
 
-We decided that we would write a command line application (for now anyway!) in Python, using the Flask framework, in order to try and identify possible fraudulent domain names.
+We decided that we would write a command line application (for now anyway!) in Python, using the Flask framework, in order to try and identify possible fraudulent domain names and websites.
 
 In short, Domain Monitor works by taking a genuine law firm name and producing multiple possible domain name variations of that name. 
-We then attempt to resolve each variation in the hope that we can identify a potential scam as early as possible. 
+We then attempt to resolve each variation in the hope that we can identify a potential scam as early as possible and report to the relevant governing body should it be necessary. 
 
 ## Setting up your local environment
 
@@ -93,20 +93,55 @@ Boom! Your all set! However, should you encounter any problems, please don't hes
 
 ## Using Domain Monitor
 
-Interacting with Domain Monitor simply entails the use of 3 simple commands.
+
+Interacting with Domain Monitor simply entails the use of several simple commands.
+
+To see a list of these commands and a brief description, you can simply run:
+
+```commandline
+flask
+```
+
+As well as the standard flask commands, you should also see our 3 custom commands, 'check', 'import' and 'report'. You can get more information about each of these commands and any required arguments by adding the '--help' flag. For example:
+ 
+```commandline
+flask check --help
+```
+
+Now that you are familiar with Domain Monitor, lets get started, and put it to use! 
 
 The first command that needs to be run parses a CSV, containing genuine law firm data, and inserts it into a database table. Run the following:
 
 ```commandline
-flask import-firms
+flask import
 ```
+
+Now we have some data to work with, we need to start generating some possible domain name variations and try to resolve them.
+ 
+By default, the check command will generate variations and check ALL the firms in the database (approximately 12,000) so as you can imagine this can take quite a while to run. As a result, we have added a 'limit' argument which allows you to choose a specific number of random firms rather than running the program for the entire dataset.
+I would suggest running the command below, which limits the selection to 15 firms, and this should execute in about 5 minutes. 
+
+```commandline
+flask check --limit=15
+```
+         
+The final command should be fairly self explanatory as you will have been prompted by the check command. Running the following, simply shows a table of results from the latest domain 'check'. 
+
+```commandline
+flask report
+```       
 
 ## Running the tests
 
-Domain Monitor has some tests that ensure the correct generation of expected domain name variations and also the successful attempt or fail or the variation resolution. 
-
-Run the tests using the following command:
+Domain Monitor also has some tests that ensure the correct generation of expected domain name variations as well as the successful attempt or fail of the variation resolution. You can run the tests by executing the following:
 
 ```commandline
 python tests.py
 ```
+
+## Final Note
+
+All being well, and I have every faith, you have managed to run and interact with this small program successfully. It's still very limited in scope and very much a first iteration but something that we will continue to improve and develop.
+Hopefully it has demonstrated a good level of understanding and research in to new technologies, that we have managed to successfully apply to a real world problem!
+
+We've thoroughly enjoyed the module, thank you :-)     
