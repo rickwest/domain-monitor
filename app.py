@@ -64,7 +64,7 @@ def import_clc_firms():
 @click.option('--limit', default=None, help='The number of random firms to check')
 def check_all_domains(limit):
     """This command takes all, or a given number of, firms, generates variations for them, and attempts to resolve.
-    The core functionality of the Domain Monitor program.
+    This is the core functionality of the Domain Monitor program.
     """
 
     if limit is not None:
@@ -75,21 +75,19 @@ def check_all_domains(limit):
         # select all firms
         firms = Firm.select()
 
-    with click.progressbar(firms) as bar:
-        click.echo(emoji.emojize(' Checking domains. :hourglass_flowing_sand: '
-                                 'Please be patient...we have a lot of domain variations to check!',
-                                 use_aliases=True))
+    with click.progressbar(firms,
+                           label='Checking domains. '
+                                 'Please be patient...we have a lot of variations to check!') as bar:
         check_domains(bar)
 
-    click.echo(emoji.emojize('All domain variations have been checked :smiley:.\n'
-                             'To view the latest domain report, run the following command:\n'
-                             ':snake:  ',
-                             use_aliases=True) + click.style('flask report', fg='green'))
+    click.echo(emoji.emojize('\nAll domain variations have been checked :smiley:.\n\n'
+                             'To view the latest domain report, run the following command:\n\n'
+                             ':snake:  ', use_aliases=True) + click.style('flask report\n', fg='green'))
 
 
 @app.cli.command(name='report')
 def domain_report():
-    """Command that generates a tabular report using data from the latest run of check-domains."""
+    """Command that generates a tabular report using data from the latest run of the 'check'."""
 
     # get most recent domain report entry
     latest_entry = DomainReport.select().order_by(DomainReport.id.desc()).get()
@@ -99,11 +97,12 @@ def domain_report():
 
     table_data = [
         # table heading's
-        ['Firm Name', 'Known Domain', 'Identified Domain Variation', 'Last Checked'],
+        ['Firm Name', 'Known Domain', 'Domain Variation', 'Found', 'Last Checked'],
     ]
 
     # loop each report and append respective rows in order to construct table
     for report in reports:
-        table_data.append([report.firm.firm_name, report.firm.known_domain, report.domain, report.last_checked_at])
+        table_data.append([report.firm.firm_name, report.firm.known_domain, report.domain,
+                           report.found_at.strftime('%d %b %Y'), report.last_checked_at.strftime('%d %b %Y')])
 
     click.echo(AsciiTable(table_data).table)
